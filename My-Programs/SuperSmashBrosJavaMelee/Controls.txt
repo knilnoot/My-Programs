@@ -1,0 +1,25 @@
+Player 1 movement: WASD
+Player 1 Jump: Z
+Player 1 Poke Attack: X
+Player 1 Throw Lollipop: V
+Player 1 Shout Attack: C
+
+Player 2 movement: Arrowkeys
+Player 2 Jump: P
+Player 2 Poke Attack: O
+Player 2 Throw Lollipop: K
+Player 2 Shout Attack: L
+
+Swap Player 1 Controls with the next player: R
+
+Toggle Editing Mode: Enter
+(During Editing Mode)
+Move View: Drag Right Click
+Zoom in/out: Mouse Wheel up/down
+Place Blocks: Drag Left Click
+Toggle Block Deletion Mode: Delete
+Delete Blocks: Click Block (During Deletion Mode)
+Toggle Blast Zone Placement: B (place it just like a block)
+Save Level: S
+Load Level: L
+Place a New Player: P

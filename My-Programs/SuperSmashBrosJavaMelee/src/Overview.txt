@@ -1,0 +1,19 @@
+Welcome to the code of super smash bros. java!
+This file gives a general idea of how the whole code (as of 2/5/2020) works
+
+The program starts on the MakeJFrame class, which pretty much just makes the window and starts the SuperSmashBrosJavaMelee class.
+
+The SSBJM class does several things:
+    1.It paints everything to the screen and calculates everything important for that.
+    2.It handles collisions between objects (players, levelBlocks, attacks).
+    3.It takes keyboard and mouse inputs.
+    4.It takes care of level creation
+
+The SSBJM class keeps track of several LevelBlock objects.
+LevelBlock Objects are pretty much just rectangles that players and attacks can collide with.
+
+a few classes hold Sprite objects
+Sprite objects hold a bufferedImage that becomes another image through the update function.
+
+The SSBJM class holds a list of player objects
+I'm bored, so I'll stop here.

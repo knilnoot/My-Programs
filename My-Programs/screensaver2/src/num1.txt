@@ -1,0 +1,192 @@
+import javax.swing.*;
+        import java.awt.event.*;
+        import java.awt.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
+        import java.awt.event.KeyAdapter;
+        import java.awt.event.KeyEvent;
+        import java.awt.image.BufferedImage;
+
+public class screensaver2 extends JFrame {
+
+    public screensaver2() {
+        add(new Board(this));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        setLocationRelativeTo(null);
+        setTitle("JFrame");
+        setCursor(getToolkit().createCustomCursor(
+                new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                new Point(),
+                null ) );
+        setResizable(false);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new screensaver2(); //Runs the constuctor
+    }
+}
+
+
+class Board extends JPanel implements ActionListener {
+
+    public int count = 0;
+    public int displayX = 0;
+    public int displayY = 0;
+    public int squareSize;
+    public int [] [] squares;
+    public int [] setUp = new int [4];
+    public Color fadeFromLn = Color.black;
+    public Color fadeToLn = fadeFromLn;
+    private Timer timer;
+    public screensaver2 SS;
+
+    public Board(screensaver2 SS) {
+        this.SS = SS;
+        displayX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 1;
+        displayY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 1;
+        squareSize = displayY / 300;
+        System.out.println(displayX + ", " + displayY);
+        squares = new int [(displayX + displayY) * 5] [4];
+        //squares slots:
+        //0 = x
+        //1 = y
+        //2 = xSpeed
+        //3 = ySpeed
+        makeLine();
+        MouseButtonRecogn a = new MouseButtonRecogn();
+        addMouseListener(a);
+        addMouseMotionListener(a);
+        addKeyListener(new TAdapter());
+        setBackground(Color.black);
+        setFocusable(true);
+        initGame();
+    }
+
+    public void initGame() {
+        timer = new Timer(30, this);
+        timer.start();
+    }
+
+    public void update () {
+        if (fadeToLn.getRed() == fadeFromLn.getRed() && fadeToLn.getGreen() == fadeFromLn.getGreen() && fadeToLn.getBlue() == fadeFromLn.getBlue()) {
+            for (int i = 0; i < 1; i++) {
+                fadeToLn = new Color ((int) (Math.random() + .5) * 255, (int) (Math.random() + .5) * 255, (int) (Math.random() + .5) * 255);
+                if ((fadeToLn.getRed() == 0 && fadeToLn.getGreen() == 0 && fadeToLn.getBlue() == 0) || (fadeToLn.getRed() == fadeFromLn.getRed() && fadeToLn.getGreen() == fadeFromLn.getGreen() && fadeToLn.getBlue() == fadeFromLn.getBlue()))
+                    i--;
+            }
+        }
+        else {
+            fadeFromLn = new Color (fadeStuff(fadeFromLn.getRed(), fadeToLn.getRed()), fadeStuff(fadeFromLn.getGreen(), fadeToLn.getGreen()), fadeStuff(fadeFromLn.getBlue(), fadeToLn.getBlue()));
+        }
+        for (int y = 0; y < 300; y++)
+            for (int i = 0; i < squares.length; i++) {
+                if (squares [i] [0] < 0) {
+                    //System.out.println("left");
+                    squares[i][2] = 1;
+                }
+                if (squares [i] [0] > displayX - squareSize) {
+                    //System.out.println("right");
+                    squares[i][2] = -1;
+                }
+                if (squares [i] [1] < 0) {
+                    //System.out.println("top");
+                    squares[i][3] = 1;
+                }
+                if (squares [i] [1] > displayY - squareSize) {
+                    //System.out.println("bottom");
+                    squares[i][3] = -1;
+                }
+                squares [i] [0] += squares [i] [2];
+                squares [i] [1] += squares [i] [3];
+            }
+    }
+
+    public void paint(Graphics g) {
+        super.paint(g);
+        //g.drawRect(0, 0, displayX, displayY);
+        g.setColor(fadeFromLn);
+        for (int i = 0; i < squares.length; i++)
+            g.fillRect(squares [i] [0], squares [i] [1], squareSize, squareSize);/*
+        for (int i = 0; i < 50; i++) {
+            for (int j = 0; j < 100; j++) {
+                if (i % 2 == 0)
+                    g.setColor(Color.blue);
+                else
+                    g.setColor(Color.white);
+                if (j % 2 == 0)
+                    g.fillRect(j * 12, i * 12, 10, 10);
+                else
+                    g.fillOval(j * 12, i * 12, 10, 10);
+            }
+        }*/
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        count++;
+        update();
+        repaint();
+    }
+    public void makeLine () {
+        setUp [0] = (int) (Math.random() * (displayX - squareSize));
+        setUp [1] = (int) (Math.random() * (displayY - squareSize));
+        setUp [2] = (int) (Math.random() + .5) * 2 - 1;
+        setUp [3] = (int) (Math.random() + .5) * 2 - 1;
+        for (int i = 0; i < squares.length; i++) {
+            //System.out.println(setUp [0] + ", " + setUp [1]);
+            if (setUp [0] < 0)
+                setUp [2] = 1;
+            if (setUp [0] > displayX - squareSize)
+                setUp [2] = -1;
+            if (setUp [1] < 0)
+                setUp [3] = 1;
+            if (setUp [1] > displayY - squareSize)
+                setUp [3] = -1;
+            squares[i][0] = setUp[0];
+            squares[i][1] = setUp[1];
+            squares[i][2] = /*-*/setUp[2];
+            squares[i][3] = setUp[3];
+            setUp[0] += setUp[2];
+            setUp[1] += setUp[3];
+        }
+    }
+    public int fadeStuff (int fFrom, int fTo) {
+        if (fTo == fFrom)
+            return fTo;
+        if (fTo < fFrom)
+            return fFrom - 1;
+        return fFrom + 1;
+    }
+    class MouseButtonRecogn extends MouseAdapter {
+
+        public void mouseMoved(MouseEvent event) {
+            //System.out.println("debug1");
+            if (count > 60) {
+                System.out.println("Mouse Moved!");
+                System.exit(0);
+            }
+        }
+
+        @Override
+        public void /*mouseClicked*/mousePressed(MouseEvent event) {
+            //System.out.println("debug2");
+            if (count > 60) {
+                System.out.println("Mouse Clicked!");
+                System.exit(0);
+            }
+        }
+    }
+
+    private class TAdapter extends KeyAdapter {
+        public void keyPressed(KeyEvent e) {
+            int key = e.getKeyCode();
+            System.out.println("Key Pressed");
+            System.exit(0);
+        }
+    }
+}

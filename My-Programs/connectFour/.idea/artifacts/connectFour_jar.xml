@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="connectFour:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/connectFour_jar</output-path>
+    <root id="archive" name="connectFour.jar">
+      <element id="module-output" name="connectFour" />
+    </root>
+  </artifact>
+</component>

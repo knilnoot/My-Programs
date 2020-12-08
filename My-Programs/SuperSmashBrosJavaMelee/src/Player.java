@@ -1,0 +1,47 @@
+import java.awt.image.BufferedImage;
+
+public abstract class Player {
+    public abstract float getX();
+    public abstract float getY();
+    public abstract float getCX();
+    public abstract float getCY();
+    public abstract float getHeight();
+    public abstract float getWidth();
+    public abstract float getxVelocity();
+    public abstract float getyVelocity();
+    public abstract int getSpriteNumber();
+    public abstract float getSpriteXOffset();
+    public abstract float getSpriteYOffset();
+    public abstract float getSpriteHeight();
+    public abstract float getSpriteWidth();
+    public abstract boolean canBounce(float speed);
+    public abstract void setX(float x);
+    public abstract void setY(float y);
+    public abstract void setDamage(int damage);
+    public abstract int getDamage();
+    public abstract int getDeathCount();
+    public abstract void setxVelocity(float xVelocity);
+    public abstract void setyVelocity(float yVelocity);
+    public abstract void setMovingLeft(boolean input);
+    public abstract void setMovingRight(boolean input);
+    public abstract void setFacingLeft(boolean input);
+    public abstract boolean getFacingLeft();
+    public abstract void addX(float x);
+    public abstract void addY(float x);
+    public abstract void resetJumps();
+    public abstract void jump();
+    public abstract void setAirborne(boolean input);
+    public abstract void throwLollipop();
+    public abstract void shout();
+    public abstract void poke();
+    public abstract void setCanJump(boolean input);
+    public abstract void addAttack(Attack attack);
+    public abstract void kill();
+    public abstract void hitPlayer(Attack attack);
+    public abstract void update();
+    public abstract BufferedImage getSprite();
+    public abstract int getAttackSize();
+    public abstract Attack getAttack (int index);
+    public abstract float findAttackX (float index);
+    public abstract void setAttackAtIndex(Attack attack, int index);
+}
